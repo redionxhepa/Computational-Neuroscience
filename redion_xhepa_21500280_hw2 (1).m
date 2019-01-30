@@ -7,9 +7,6 @@ clc
 close all
 %parameters
 
-%There might be too many inconsistencies with the report photos in the way
-%that labelling might hold since at the last day I had issues with the
-%Runge Kutta code and I had to change it.
 switch question
     case '1'
 disp('Question 1  part b ');
@@ -56,31 +53,27 @@ title('Spike emission thressholded ');
 xlabel('time in ms');
 ylabel('Voltage in V');
 
-
-
-%part d in the last minutes started not to work .I changed sth but I could
-%not find the error.
-% disp('Question 1 part d ');
-% firing_rate=[];
-% current_initial_1=2e-3:1e-4:10e-3;
-% thressholf=1/100;  %considering our units normally is one but in our code should be dicided by 100
-%  value = 0;
-% for k=1:length(current_initial_1)
-% for i=1:length(t)-1
-%     next = (1-h/tau_1)*value(1,i)+h/tau_1*resistance_1*current_initial_1(k); %discretizazion with time step h
-%     if  next >=thressholf
-%         next=0;  %reset
-%     end
-%     value = [value next];
-% end
-%   peak=numel(findpeaks(value));
-%   firing_rate=[firing_rate peak];
-% end
+ disp('Question 1 part d ');
+ firing_rate=[];
+ current_initial_1=2e-3:1e-4:10e-3;
+ thressholf=1/100;  %considering our units normally is one but in our code should be dicided by 100
+  value = 0;
+ for k=1:length(current_initial_1)
+  for i=1:length(t)-1
+      next = (1-h/tau_1)*value(1,i)+h/tau_1*resistance_1*current_initial_1(k); %discretizazion with time step h
+      if  next >=thressholf
+          next=0;  %reset
+      end
+      value = [value next];
+ end
+   peak=numel(findpeaks(value));
+   firing_rate=[firing_rate peak];
+ end
 % %divide by max t
 % figure
-% firing_rate= firing_rate/max(t);
-% plot(current_initial_1,firing_rate)
-% xlabel('current)')
+ firing_rate= firing_rate/max(t);
+ plot(current_initial_1,firing_rate)
+ xlabel('current)')
 
 %Question 2
 
@@ -88,66 +81,63 @@ case '2'
 
 %Computational Neuroscience HW2_Question 2
 disp('Question 2 having some errors so I commented the code');
-% disp('Question 2 Part A ');
-% repeat=200; %repeat for 200 times
-% time_wanted=1;  %1 sec long poisson process
-% mean_rate_wanted=15; % mean rate 15 Hz
-% spike_count_hspikes1=[]; %allocate the array which will hold spike count for hspikes1 function 
-% spike_count_hspikes2=[]; %allocate the array which will hold spike count for hspikes2 function 
-% inter_spike_intr_hspikes1=[];%allocate the array which will hold  inter-spike interval for hspikes1 function 
-% inter_spike_intr_hspikes2=[];%allocate the array which will hold  inter-spike interval for hspikes2 function 
-% 
-% 
-% 
-% 
-% for i=1:repeat
-%     [spike1  ints1 ]=hspikes1(time_wanted,mean_rate_wanted);
-%     [spike2  ints2 ]=hspikes2(time_wanted,mean_rate_wanted);
-%     spike_count_hspikes1(i)= spike1 ;
-%     inter_spike_intr_hspikes1(i)=ints1 ;
-%     spike_count_hspikes2(i)= spike2;
-%     inter_spike_intr_hspikes2(i)=ints2;
-% end
+ disp('Question 2 Part A ');
+ repeat=200; %repeat for 200 times
+ time_wanted=1;  %1 sec long poisson process
+ mean_rate_wanted=15; % mean rate 15 Hz
+ spike_count_hspikes1=[]; %allocate the array which will hold spike count for hspikes1 function 
+ spike_count_hspikes2=[]; %allocate the array which will hold spike count for hspikes2 function 
+ inter_spike_intr_hspikes1=[];%allocate the array which will hold  inter-spike interval for hspikes1 function 
+ inter_spike_intr_hspikes2=[];%allocate the array which will hold  inter-spike interval for hspikes2 function 
+
+ for i=1:repeat
+     [spike1  ints1 ]=hspikes1(time_wanted,mean_rate_wanted);
+     [spike2  ints2 ]=hspikes2(time_wanted,mean_rate_wanted);
+     spike_count_hspikes1(i)= spike1 ;
+     inter_spike_intr_hspikes1(i)=ints1 ;
+     spike_count_hspikes2(i)= spike2;
+     inter_spike_intr_hspikes2(i)=ints2;
+ end
 % 
 % %Construct the histograms for each part
-% histogram(spike_count_hspikes1);
-% title('Spike count Histogram for hspikes1 function');
-% histogram(spike_count_hspikes2);
-% title('Spike count Histogram for hspikes2 function')
-% histogram(inter_spike_intr_hspikes1);
-% title('Inter-spike interval Histogram for hspikes1 function')
-% histogram(inter_spike_intr_hspikes2);
-% title('Inter-spike interval Histogram for hspikes2 function')
+ histogram(spike_count_hspikes1);
+ title('Spike count Histogram for hspikes1 function');
+ histogram(spike_count_hspikes2);
+ title('Spike count Histogram for hspikes2 function')
+ histogram(inter_spike_intr_hspikes1);
+ title('Inter-spike interval Histogram for hspikes1 function')
+ histogram(inter_spike_intr_hspikes2);
+ title('Inter-spike interval Histogram for hspikes2 function')
 % 
 % 
 % disp('Question 2 Part B ');
 % %Define the requirements for spike times and time length
-% repeat=50;
-% time_stimulus=4;
-% time_step=0.001;
-% lambda=20*sin(20.*t)+30;  %firing rate is time varying
+ repeat=50;
+ time_stimulus=4;
+ time_step=0.001;
+ lambda=20*sin(20.*t)+30;  %firing rate is time varying
 % 
 % %allocate the spike 
-% spike_count_inh=[];
-% inter_spike_intr_inh=[]; %this will be redunant 
+ spike_count_inh=[];
+ inter_spike_intr_inh=[]; %this will be redunant 
 % 
 % %raster plot showing the spike times from 50 repeats of a 4-second stimulus
 % %Calculate the spike count for a time stimulus of 4 sec 50 times
-% for i=1:repeat
-%    [spike_count_inh(i)  inter_spike_intr_inh(i) ] =ihspikes(time_stimulus,lambda); 
-% end
+ for i=1:repeat
+    [spike_count_inh(i)  inter_spike_intr_inh(i) ] =ihspikes(time_stimulus,lambda); 
+ end
 % 
 % 
 % 
 % 
-% function [spike_count,inter_spike_intr] = hspikes1(length_sec,mean_rate)
-% time_step=0.001;
-% t=0:time_step:length_sec;
-% bins_no=(length_sec/time_step)+1; %number of bins
-% sample=rand(1,bins_no); %generate random samples
-% spike_array=[];  %allocate the spike array
-% lambda=mean_rate/length_sec;
-% probability_bernoulli=lambda*time_step;
+ function [spike_count,inter_spike_intr] = hspikes1(length_sec,mean_rate)
+ time_step=0.001;
+ t=0:time_step:length_sec;
+ bins_no=(length_sec/time_step)+1; %number of bins
+ sample=rand(1,bins_no); %generate random samples
+ spike_array=[];  %allocate the spike array
+ lambda=mean_rate/length_sec;
+ probability_bernoulli=lambda*time_step;
 % times=[]; % allocate the array which will store the times where the spikes occur
 % 
 % for i=1:bins_no
@@ -196,14 +186,14 @@ disp('Question 2 having some errors so I commented the code');
 %         times=[times t(i)];         %store the time when it happened
 %     else               
 %         spike_array=[spike_array 0];%no spike
-%     end
+ %    end
 % end
 %  %spike count vector is added elementwise and the total n.o of spikes is
 %  %calculated
-%  spike_count=sum(spike_array);   
-% % calculate the inter-spike intervals
-% inter_spike_intr=diff(times);
-% end
+  spike_count=sum(spike_array);   
+ % calculate the inter-spike intervals
+  inter_spike_intr=diff(times);
+ end
 
 %Question 3  
 
@@ -364,16 +354,7 @@ else
      disp('Neuron 2 not  linear');
 end
     
-
-%%% part b
- disp('Question 4 part b ');
-
- 
- 
- disp('Question 4 part c '),
-
   
- 
   
   %Question 5 
   case '5'
